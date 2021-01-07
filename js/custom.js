@@ -179,60 +179,108 @@
         mahmudulPopup();
 
         /*=========================================================================
-         Infinite Scroll
+         Portfolio Load More
          =========================================================================*/
-        var curPage = 1;
-        var pagesNum = $(".portfolio-pagination").find("li a:last").text();   // Number of pages
 
-        $container.infinitescroll({
-                itemSelector: '.grid-item',
-                nextSelector: '.portfolio-pagination li a',
-                navSelector: '.portfolio-pagination',
-                extraScrollPx: 0,
-                bufferPx: 0,
-                maxPage: 6,
-                loading: {
-                    finishedMsg: "No more works",
-                    msgText: '',
-                    speed: 'slow',
-                    selector: '.load-more',
-                }
-            },
-            // trigger Masonry as a callback
-            function (newElements) {
+        $('.load-more .btn').on('click', function (e) {
+            e.preventDefault();
 
-                var $newElems = $(newElements);
-                $newElems.imagesLoaded(function () {
-                    $newElems.animate({opacity: 1});
-                    $container.isotope('appended', $newElems);
-                });
-
-                mahmudulPopup();
-
-                // Check last page
-                curPage++;
-                if (curPage == pagesNum) {
-                    $('.load-more').remove();
-                }
-
+            //Portfolio filter list
+            var portfolio_filter_list = [];
+            $('ul.portfolio-filter li').each(function () {
+                let catName = $(this).text();
+                portfolio_filter_list.push(catName.toLowerCase());
             });
+            portfolio_filter_list.shift()
 
-        $container.infinitescroll('unbind');
 
-        $('.load-more .btn').on('click', function () {
-            $container.infinitescroll('retrieve');
-            // display loading icon
             $('.load-more .btn i').css('display', 'inline-block');
             $('.load-more .btn i').addClass('fa-spin');
+            setTimeout(function () {
+                //hide spin icon
+                $('.load-more .btn i').hide();
+            }, 500);
 
-            $(document).ajaxStop(function () {
-                setTimeout(function () {
-                    // hide loading icon
-                    $('.load-more .btn i').hide();
-                }, 1000);
+            var current_offset = $('.portfolio-wrapper').data('portfolios');
+            var ni = $('.portfolio-wrapper').data('ni');
+            var nonce = $('#loadmorep').val();
+            $.post(portfolio.ajaxurl, {
+                action: 'loadmorep',
+                nonce: nonce,
+                offset: current_offset,
+            }, function (data) {
+                $('.portfolio-wrapper').data('portfolios', (parseInt(current_offset) + parseInt(ni)))
+                let items = $(data).find('.grid-item');
+
+                //Portfolio Categories/ Filter list from ajax load
+                let portfolio_categories = [];
+                items.each(function (index) {
+                    let portpolio_cat_items = items[index].getAttribute('data-categories');
+                    if (!portfolio_categories.includes(portpolio_cat_items)) {
+                        if (portpolio_cat_items.match(' ')) {
+                            let items = portpolio_cat_items.split(' ');
+                            items.map(function (item) {
+                                if (!portfolio_categories.includes(item)) {
+                                    portfolio_categories.push(item);
+                                }
+                            });
+                        } else {
+                            portfolio_categories.push(portpolio_cat_items);
+                        }
+
+                    }
+                });
+
+                //check ajax load categories exist in loaded categories or not
+                let finarl_portfolio_filter_list = [];
+
+                portfolio_categories.forEach(function (item) {
+                    if (!portfolio_filter_list.includes(item)) {
+                        finarl_portfolio_filter_list.push(item);
+                    }
+                });
+
+
+                //appending desktop portfolio filter items to front page
+                let portfolio_filter_desktop = '';
+                finarl_portfolio_filter_list.forEach(function (item) {
+                    //Making Capital of first word
+                    let itemTitle = item.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+                        return letter.toUpperCase();
+                    });
+
+                    portfolio_filter_desktop += `
+                    <li class="list-inline-item"
+                        data-filter=".${item}">${itemTitle}</li>
+                    `;
+                });
+                $('.portfolio-filter').append(portfolio_filter_desktop);
+
+                //appending mobile portfolio filter items to front page
+                let portfolio_filter_mobile = '';
+                finarl_portfolio_filter_list.forEach(function (item) {
+                    //Making Capital of first word
+                    let itemTitle = item.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+                        return letter.toUpperCase();
+                    });
+
+                    portfolio_filter_mobile += `
+                    <option value=".${item}">${itemTitle}</option>
+                    `;
+                });
+                $('.portfolio-filter-mobile').append(portfolio_filter_mobile);
+
+
+                //appending portfolio item to front page
+                $container.append(items).isotope('appended', items);
+                mahmudulPopup();
+                if (items.length === 0) {
+                    $('.load-more').remove();
+                    $('.portfolio-wrapper').after('<p class="text-center mt-4">No more here 🙂 Check my <a href="https://github.com/ProMahmudul" target="_blank" title="Github">Github</a> </p>').animate(500);
+                }
             });
-            return false;
-        });
+
+        })
 
         /* ======= Mobile Filter ======= */
 

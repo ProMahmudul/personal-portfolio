@@ -139,7 +139,11 @@ function mahmudul_scripts() {
         wp_enqueue_script( 'mahmudul-parallax.min-js' );
         wp_enqueue_script( 'mahmudul-jquery.magnific-popup.min-js' );
     }
+
     wp_enqueue_script( 'mahmudul-custom-js', get_template_directory_uri() . '/js/custom.js', array( 'jquery' ), _S_VERSION, true );
+
+    $ajax_url = admin_url( 'admin-ajax.php' );
+    wp_localize_script( 'mahmudul-custom-js', 'portfolio', array( 'ajaxurl' => $ajax_url ) );
 
     $skill_category = get_terms( array(
         'taxonomy'   => 'skill_category',
@@ -251,3 +255,116 @@ function mahmudul_menu_link_change( $menu_items ) {
 }
 
 add_filter( 'wp_nav_menu_objects', 'mahmudul_menu_link_change', 1, 2 );
+
+function mahmudul_load_portfolio_items() {
+    if ( wp_verify_nonce( $_POST['nonce'], 'loadmorep' ) ) {
+        $args = array(
+            'post_type'      => 'portfolio',
+            'post_status'    => 'publish',
+            'posts_per_page' => '-1',
+            'orderby'        => 'publish_date',
+            'order'          => 'DESC'
+        );
+
+        $mahmudul_portfolio_items           = new WP_Query( $args );
+        $mahmudul_portfolio_items           = $mahmudul_portfolio_items->posts;
+        $mahmudul_number_of_portfolio_items = 6;
+        $mahmudul_portfolio_offset          = $_POST['offset'];
+        $mahmudul_portfolio_items           = array_slice( $mahmudul_portfolio_items, $mahmudul_portfolio_offset );
+        $mahmudul_portfolio_item_categories = [];
+        $mahmudul_counter                   = 0;
+
+        if ( count( $mahmudul_portfolio_items ) > 0 ) {
+            foreach ( $mahmudul_portfolio_items as $mahmudul_portfolio_item ) {
+
+                $mahmudul_portfolio_item_cats = wp_get_object_terms( $mahmudul_portfolio_item->ID, 'portfolio_category', array( 'fields' => 'names' ) );
+
+                foreach ( $mahmudul_portfolio_item_cats as $mahmudul_portfolio_item_category ) {
+                    $mahmudul_portfolio_item_category = trim( $mahmudul_portfolio_item_category );
+                    if ( !in_array( $mahmudul_portfolio_item_category, $mahmudul_portfolio_item_categories ) ) {
+                        array_push( $mahmudul_portfolio_item_categories, $mahmudul_portfolio_item_category );
+                    }
+                }
+//                $mahmudul_counter++;
+            }
+        }
+
+        echo "<div class='portfolio-category'>";
+        foreach ( $mahmudul_portfolio_item_categories as $category ): ?>
+            <li class="list-inline-item"
+                data-filter=".<?php echo strtolower( $category ); ?>"><?php echo $category; ?></li>
+        <?php endforeach;
+        echo "</div>";
+
+
+        echo "<div class='portfolio'>";
+        foreach ( $mahmudul_portfolio_items as $mahmudul_portfolio_item ):
+            if ( $mahmudul_counter >= $mahmudul_number_of_portfolio_items ) {
+                break;
+            }
+
+            $portfolio_item_categories = get_the_terms( $mahmudul_portfolio_item->ID, 'portfolio_category' );
+            $portfolio_categories      = implode( " ", wp_list_pluck( $portfolio_item_categories, 'name' ) );
+            $portfolio_tags            = implode( " | ", wp_list_pluck( $portfolio_item_categories, 'name' ) );
+
+            if ( carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'mahmudul_portfolio_type' ) == 'popup' ):
+                ?>
+
+                <!-- portfolio item -->
+                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>" data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
+                    <a href="#small-dialog-<?php echo $mahmudul_portfolio_item->ID; ?>" class="work-content">
+                        <div class="portfolio-item rounded shadow-dark">
+                            <div class="details">
+                                <span class="term"><?php echo $portfolio_tags; ?></span>
+                                <h4 class="title"><?php echo $mahmudul_portfolio_item->post_title; ?></h4>
+                                <span class="more-button"><i class="icon-options"></i></span>
+                            </div>
+                            <div class="thumb">
+                                <?php echo get_the_post_thumbnail( $mahmudul_portfolio_item->ID, 'medium' ); ?>
+                                <div class="mask"></div>
+                            </div>
+                        </div>
+                    </a>
+                    <div id="small-dialog-<?php echo $mahmudul_portfolio_item->ID; ?>" class="white-popup zoom-anim-dialog mfp-hide">
+                        <?php echo wp_get_attachment_image( carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_image' ), 'medium_large' ); ?>
+                        <h2><?php echo $mahmudul_portfolio_item->post_title; ?></h2>
+                        <?php echo $mahmudul_portfolio_item->post_content; ?>
+                        <a href="<?php echo carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_btn_link' ); ?>"
+                           class="btn btn-default"
+                           target="_blank"><?php echo carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_btn_title' ); ?></a>
+                    </div>
+                </div>
+
+            <?php elseif ( carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'mahmudul_portfolio_type' ) == 'normal' ): ?>
+
+                <!-- portfolio item -->
+                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>" data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
+                    <a href="<?php echo carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_link' ); ?>"
+                       target="_blank">
+                        <div class="portfolio-item rounded shadow-dark">
+                            <div class="details">
+                                <span class="term"><?php echo $portfolio_tags; ?></span>
+                                <h4 class="title"><?php echo $mahmudul_portfolio_item->post_title; ?></h4>
+                                <span class="more-button"><i class="icon-link"></i></span>
+                            </div>
+                            <div class="thumb">
+                                <?php echo get_the_post_thumbnail( $mahmudul_portfolio_item->ID, 'medium' ); ?>
+                                <div class="mask"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            <?php endif;
+
+            $mahmudul_counter++;
+        endforeach;
+        wp_reset_postdata();
+        echo "</div>";
+
+    }
+    die();
+}
+
+add_action( 'wp_ajax_loadmorep', 'mahmudul_load_portfolio_items' );
+add_action( 'wp_ajax_nopriv_loadmorep', 'mahmudul_load_portfolio_items' );

@@ -434,13 +434,6 @@
             <div class="spacer" data-height="60"></div>
             <?php
 
-            $portfolio_category = get_terms( array(
-                'taxonomy'   => 'portfolio_category',
-                'hide_empty' => true,
-                'order_by'   => 'term_id',
-                'order'      => 'ASC'
-            ) );
-
             $args = array(
                 'post_type'      => 'portfolio',
                 'post_status'    => 'publish',
@@ -496,14 +489,23 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-
+            <?php
+            wp_nonce_field( 'loadmorep', 'loadmorep' );
+            ?>
             <!-- portolio wrapper -->
             <div class="row portfolio-wrapper"
                  data-portfolios="<?php esc_attr_e( $mahmudul_number_of_portfolio_items ); ?>"
                  data-ni="<?php esc_attr_e( $mahmudul_number_of_portfolio_items ); ?>">
 
+
                 <?php
                 $mahmudul_counter = 0;
+
+                //                echo '<pre>';
+                //                print_r($mahmudul_portfolio_items->posts);
+                //                echo '</pre>';
+                //                die();
+
                 while ( $mahmudul_portfolio_items->have_posts() ):
                     $mahmudul_portfolio_items->the_post();
                     if ( $mahmudul_counter >= $mahmudul_number_of_portfolio_items ) {
@@ -519,7 +521,7 @@
 
                         <!-- portfolio item -->
                         <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>">
-                            <a href="#small-dialog" class="work-content">
+                            <a href="#small-dialog-<?php echo get_the_ID(); ?>" class="work-content">
                                 <div class="portfolio-item rounded shadow-dark">
                                     <div class="details">
                                         <span class="term"><?php echo $portfolio_tags; ?></span>
@@ -532,8 +534,8 @@
                                     </div>
                                 </div>
                             </a>
-                            <div id="small-dialog" class="white-popup zoom-anim-dialog mfp-hide">
-                                <?php echo wp_get_attachment_image( carbon_get_the_post_meta( 'portfolio_image' ), 'original' ); ?>
+                            <div id="small-dialog-<?php echo get_the_ID(); ?>" class="white-popup zoom-anim-dialog mfp-hide">
+                                <?php echo wp_get_attachment_image( carbon_get_the_post_meta( 'portfolio_image' ), 'medium_large' ); ?>
                                 <h2><?php the_title(); ?></h2>
                                 <?php the_content(); ?>
                                 <a href="<?php echo carbon_get_the_post_meta( 'portfolio_btn_link' ); ?>"
@@ -541,7 +543,9 @@
                                    target="_blank"><?php echo carbon_get_the_post_meta( 'portfolio_btn_title' ); ?></a>
                             </div>
                         </div>
+
                     <?php elseif ( carbon_get_the_post_meta( 'mahmudul_portfolio_type' ) == 'normal' ): ?>
+
                         <!-- portfolio item -->
                         <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>">
                             <a href="<?php echo carbon_get_the_post_meta( 'portfolio_link' ); ?>" target="_blank">
@@ -558,6 +562,7 @@
                                 </div>
                             </a>
                         </div>
+
                     <?php endif; ?>
 
                     <?php
@@ -570,7 +575,7 @@
 
             <!-- more button -->
             <div class="load-more text-center mt-4">
-                <a href="javascript:" class="btn btn-default"><i
+                <a href="javascript:" id="load-more" class="btn btn-default"><i
                             class="fas fa-spinner"></i><?php esc_html_e( 'Load more', 'mahmudul' ); ?></a>
                 <!-- numbered pagination (hidden for infinite scroll) -->
                 <ul class="portfolio-pagination list-inline d-none">
