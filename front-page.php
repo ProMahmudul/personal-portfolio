@@ -322,7 +322,7 @@
                              data-color="<?php echo carbon_get_the_post_meta( 'service_color' ); ?>">
                             <?php echo get_the_post_thumbnail(); ?>
                             <h3 class="mb-3 mt-0"><?php the_title(); ?></h3>
-                            <p class="mb-0"><?php the_content(); ?></p>
+                            <?php the_content(); ?>
                         </div>
                         <div class="spacer d-md-none d-lg-none" data-height="30"></div>
                     </div>
@@ -429,11 +429,11 @@
         <div class="container">
 
             <!-- section title -->
-            <h2 class="section-title wow fadeInUp">Recent works</h2>
+            <h2 class="section-title wow fadeInUp"><?php esc_html_e( 'Recent works', 'mahmudul' ); ?></h2>
 
             <div class="spacer" data-height="60"></div>
-            <?php
 
+            <?php
             $args = array(
                 'post_type'      => 'portfolio',
                 'post_status'    => 'publish',
@@ -501,11 +501,6 @@
                 <?php
                 $mahmudul_counter = 0;
 
-                //                echo '<pre>';
-                //                print_r($mahmudul_portfolio_items->posts);
-                //                echo '</pre>';
-                //                die();
-
                 while ( $mahmudul_portfolio_items->have_posts() ):
                     $mahmudul_portfolio_items->the_post();
                     if ( $mahmudul_counter >= $mahmudul_number_of_portfolio_items ) {
@@ -534,7 +529,8 @@
                                     </div>
                                 </div>
                             </a>
-                            <div id="small-dialog-<?php echo get_the_ID(); ?>" class="white-popup zoom-anim-dialog mfp-hide">
+                            <div id="small-dialog-<?php echo get_the_ID(); ?>"
+                                 class="white-popup zoom-anim-dialog mfp-hide">
                                 <?php echo wp_get_attachment_image( carbon_get_the_post_meta( 'portfolio_image' ), 'medium_large' ); ?>
                                 <h2><?php the_title(); ?></h2>
                                 <?php the_content(); ?>
@@ -575,189 +571,145 @@
 
             <!-- more button -->
             <div class="load-more text-center mt-4">
-                <a href="javascript:" id="load-more" class="btn btn-default"><i
+                <a href="javascript:" class="btn btn-default"><i
                             class="fas fa-spinner"></i><?php esc_html_e( 'Load more', 'mahmudul' ); ?></a>
-                <!-- numbered pagination (hidden for infinite scroll) -->
-                <ul class="portfolio-pagination list-inline d-none">
-                    <li class="list-inline-item">1</li>
-                    <li class="list-inline-item"><a href="works-2.html">2</a></li>
-                </ul>
             </div>
 
         </div>
 
     </section>
 
-    <!-- section prices -->
-    <section id="prices">
+    <?php
+    $hide_pricing_plans = carbon_get_the_post_meta( 'mahmudul_pricing' );
+    if ( $hide_pricing_plans != true ):
+        ?>
+        <!-- section prices -->
+        <section id="prices">
 
-        <div class="container">
+            <div class="container">
 
-            <!-- section title -->
-            <h2 class="section-title wow fadeIn">Pricing Plans</h2>
+                <!-- section title -->
+                <h2 class="section-title wow fadeIn">Pricing Plans</h2>
 
-            <div class="spacer" data-height="60"></div>
+                <div class="spacer" data-height="60"></div>
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-4 pr-md-0 mt-md-4 mt-0">
-                    <!-- price item -->
-                    <div class="price-item bg-white rounded shadow-dark text-center">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/price-1.svg" alt="Regular"/>
-                        <h2 class="plan">Basic</h2>
-                        <p>A Simple option but powerful to manage your business</p>
-                        <p>Email support</p>
-                        <h3 class="price"><em>$</em>9<span>Month</span></h3>
-                        <a href="#" class="btn btn-default">Get Started</a>
+                    <div class="col-md-4 pr-md-0 mt-md-4 mt-0">
+                        <!-- price item -->
+                        <div class="price-item bg-white rounded shadow-dark text-center">
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/price-1.svg" alt="Regular"/>
+                            <h2 class="plan">Basic</h2>
+                            <p>A Simple option but powerful to manage your business</p>
+                            <p>Email support</p>
+                            <h3 class="price"><em>$</em>9<span>Month</span></h3>
+                            <a href="#" class="btn btn-default">Get Started</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 px-md-0 my-4 my-md-0">
-                    <!-- price item recommended-->
-                    <div class="price-item bg-white rounded shadow-dark text-center best">
-                        <span class="badge">Recommended</span>
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/price-2.svg" alt="Premium"/>
-                        <h2 class="plan">Premium</h2>
-                        <p>Unlimited product including apps integrations and more features</p>
-                        <p>Mon-Fri support</p>
-                        <h3 class="price"><em>$</em>49<span>Month</span></h3>
-                        <a href="#" class="btn btn-default">Get Started</a>
+                    <div class="col-md-4 px-md-0 my-4 my-md-0">
+                        <!-- price item recommended-->
+                        <div class="price-item bg-white rounded shadow-dark text-center best">
+                            <span class="badge">Recommended</span>
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/price-2.svg" alt="Premium"/>
+                            <h2 class="plan">Premium</h2>
+                            <p>Unlimited product including apps integrations and more features</p>
+                            <p>Mon-Fri support</p>
+                            <h3 class="price"><em>$</em>49<span>Month</span></h3>
+                            <a href="#" class="btn btn-default">Get Started</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 pl-md-0 mt-md-4 mt-0">
-                    <!-- price item -->
-                    <div class="price-item bg-white rounded shadow-dark text-center">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/price-3.svg" alt="Ultimate"/>
-                        <h2 class="plan">Ultimate</h2>
-                        <p>A wise option for large companies and individuals</p>
-                        <p>24/7 support</p>
-                        <h3 class="price"><em>$</em>99<span>Month</span></h3>
-                        <a href="#" class="btn btn-default">Get Started</a>
+                    <div class="col-md-4 pl-md-0 mt-md-4 mt-0">
+                        <!-- price item -->
+                        <div class="price-item bg-white rounded shadow-dark text-center">
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/price-3.svg" alt="Ultimate"/>
+                            <h2 class="plan">Ultimate</h2>
+                            <p>A wise option for large companies and individuals</p>
+                            <p>24/7 support</p>
+                            <h3 class="price"><em>$</em>99<span>Month</span></h3>
+                            <a href="#" class="btn btn-default">Get Started</a>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
+    <?php endif; ?>
 
     <!-- section testimonials -->
     <section id="testimonials">
+        <?php
+        $args = array(
+            'post_type'      => 'testimonial',
+            'post_status'    => 'publish',
+            'posts_per_page' => '-1',
+            'orderby'        => 'publish_date',
+            'order'          => 'DESC'
+        );
+
+        $testimonials = new WP_Query( $args );
+        ?>
 
         <div class="container">
 
             <!-- section title -->
-            <h2 class="section-title wow fadeInUp">Clients & Reviews</h2>
+            <h2 class="section-title wow fadeInUp"><?php esc_html_e( 'Clients & Reviews', 'mahmudul' ); ?></h2>
 
             <div class="spacer" data-height="60"></div>
 
             <!-- testimonials wrapper -->
             <div class="testimonials-wrapper">
 
-                <!-- testimonial item -->
-                <div class="testimonial-item text-center mx-auto">
-                    <div class="thumb mb-3 mx-auto">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/avatar-3.svg" alt="customer-name"/>
+                <?php
+                while ( $testimonials->have_posts() ):
+                    $testimonials->the_post();
+                    ?>
+                    <!-- testimonial item -->
+                    <div class="testimonial-item text-center mx-auto">
+                        <div class="thumb mb-3 mx-auto">
+                            <?php the_post_thumbnail( 'thumbnail' ); ?>
+                        </div>
+                        <h4 class="mt-3 mb-0"><?php the_title(); ?></h4>
+                        <span class="subtitle"><?php printf( '%s at %s ', carbon_get_the_post_meta( 'client_designation' ), carbon_get_the_post_meta( 'client_organization' ) ); ?></span>
+                        <div class="bg-white padding-30 shadow-dark rounded triangle-top position-relative mt-4">
+                            <?php the_content(); ?>
+                        </div>
                     </div>
-                    <h4 class="mt-3 mb-0">John Doe</h4>
-                    <span class="subtitle">Product designer at Dribbble</span>
-                    <div class="bg-white padding-30 shadow-dark rounded triangle-top position-relative mt-4">
-                        <p class="mb-0">I enjoy working with the theme and learn so much. You guys make the process fun
-                            and interesting. Good luck! 👍</p>
-                    </div>
-                </div>
-
-                <!-- testimonial item -->
-                <div class="testimonial-item text-center mx-auto">
-                    <div class="thumb mb-3 mx-auto">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/avatar-1.svg" alt="customer-name"/>
-                    </div>
-                    <h4 class="mt-3 mb-0">John Doe</h4>
-                    <span class="subtitle">Product designer at Dribbble</span>
-                    <div class="bg-white padding-30 shadow-dark rounded triangle-top position-relative mt-4">
-                        <p class="mb-0">I enjoy working with the theme and learn so much. You guys make the process fun
-                            and interesting. Good luck! 🔥</p>
-                    </div>
-                </div>
+                <?php
+                endwhile;
+                wp_reset_postdata();
+                ?>
 
             </div>
 
-            <div class="row">
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-1.svg"
-                                 alt="client-name"/>
+            <?php
+            $hide_client_organizations = carbon_get_the_post_meta( 'mahmudul_client_organization_image' );
+            if ( $hide_client_organizations != true ):
+                ?>
+                <div class="row">
+                    <?php
+                    while ( $testimonials->have_posts() ):
+                        $testimonials->the_post();
+                        ?>
+                        <div class="col-md-3 col-6">
+                            <!-- client item -->
+                            <div class="client-item">
+                                <div class="inner">
+                                    <?php echo wp_get_attachment_image( carbon_get_the_post_meta('client_organization_image'), array(240, 50)); ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php
+                    endwhile;
+                    wp_reset_postdata();
+                    ?>
                 </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-2.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-3.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-4.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-5.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-6.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-7.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <!-- client item -->
-                    <div class="client-item">
-                        <div class="inner">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/client-8.svg"
-                                 alt="client-name"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+            endif;
+            ?>
 
         </div>
 

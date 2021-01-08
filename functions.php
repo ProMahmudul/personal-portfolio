@@ -93,6 +93,7 @@ add_action( 'widgets_init', 'mahmudul_widgets_init' );
  * Enqueue scripts and styles.
  */
 function mahmudul_scripts() {
+    wp_enqueue_style('mahmudul-google-font', '//fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap&amp;subset=cyrillic');
     wp_enqueue_style( 'mahmudul-bootstrap.min-css', get_template_directory_uri() . '/css/bootstrap.min.css', null, _S_VERSION );
     wp_enqueue_style( 'mahmudul-all.min-css', get_template_directory_uri() . '/css/all.min.css', null, _S_VERSION );
     wp_register_style( 'mahmudul-simple-line-icons-css', get_template_directory_uri() . '/css/simple-line-icons.css', null, _S_VERSION );
@@ -311,7 +312,8 @@ function mahmudul_load_portfolio_items() {
                 ?>
 
                 <!-- portfolio item -->
-                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>" data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
+                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>"
+                     data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
                     <a href="#small-dialog-<?php echo $mahmudul_portfolio_item->ID; ?>" class="work-content">
                         <div class="portfolio-item rounded shadow-dark">
                             <div class="details">
@@ -325,7 +327,8 @@ function mahmudul_load_portfolio_items() {
                             </div>
                         </div>
                     </a>
-                    <div id="small-dialog-<?php echo $mahmudul_portfolio_item->ID; ?>" class="white-popup zoom-anim-dialog mfp-hide">
+                    <div id="small-dialog-<?php echo $mahmudul_portfolio_item->ID; ?>"
+                         class="white-popup zoom-anim-dialog mfp-hide">
                         <?php echo wp_get_attachment_image( carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_image' ), 'medium_large' ); ?>
                         <h2><?php echo $mahmudul_portfolio_item->post_title; ?></h2>
                         <?php echo $mahmudul_portfolio_item->post_content; ?>
@@ -338,7 +341,8 @@ function mahmudul_load_portfolio_items() {
             <?php elseif ( carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'mahmudul_portfolio_type' ) == 'normal' ): ?>
 
                 <!-- portfolio item -->
-                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>" data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
+                <div class="col-md-4 col-sm-6 grid-item <?php echo strtolower( $portfolio_categories ); ?>"
+                     data-categories="<?php echo strtolower( $portfolio_categories ); ?>">
                     <a href="<?php echo carbon_get_post_meta( $mahmudul_portfolio_item->ID, 'portfolio_link' ); ?>"
                        target="_blank">
                         <div class="portfolio-item rounded shadow-dark">
@@ -368,3 +372,23 @@ function mahmudul_load_portfolio_items() {
 
 add_action( 'wp_ajax_loadmorep', 'mahmudul_load_portfolio_items' );
 add_action( 'wp_ajax_nopriv_loadmorep', 'mahmudul_load_portfolio_items' );
+
+// Title change in testimonial post type
+function custom_enter_title( $title ) {
+    if ( 'testimonial' === get_post_type() ) {
+        return __( 'Add Client Name', 'mahmudul' );
+    }
+    return $title;
+}
+
+add_filter( 'enter_title_here', 'custom_enter_title' );
+
+// Disable gutenberg on testimonial
+function mahmudul_disable_gutenberg( $current_status, $post_type ) {
+    if ( $post_type === 'testimonial' ) {
+        return false;
+    }
+    return $current_status;
+}
+
+add_filter( 'use_block_editor_for_post_type', 'mahmudul_disable_gutenberg', 10, 2 );

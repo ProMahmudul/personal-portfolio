@@ -56,6 +56,15 @@ function mahmudul_frontpage_meta() {
                     Field::make( 'text', 'exp_title', __( 'Title', 'mahmudul' ) )->set_width( 50 ),
                     Field::make( 'textarea', 'exp_description', __( 'Description', 'mahmudul' ) )->set_rows( 2 )
                 ) )
+        ) )
+        ->add_tab( __( 'Pricing Plans', 'mahmudul' ), array(
+            Field::make( 'checkbox', 'mahmudul_pricing', __( 'Hide Pricing Plans?', 'mahmudul' ) )
+        ) )
+        ->add_tab( __( 'Clients & Reviews', 'mahmudul' ), array(
+            Field::make( 'checkbox', 'mahmudul_client_organization_image', __( 'Hide Organization Images?', 'mahmudul' ) ),
+            Field::make( 'html', 'mahmudul_testimonial_dir_text' )
+                ->set_html( '<p>* Go to Portfolios for adding clients & reviews</p>' )
+
         ) );
 
     Container::make( 'post_meta', __( 'Skill Extra Info', 'mahmudul' ) )
@@ -135,28 +144,23 @@ function mahmudul_frontpage_meta() {
         ) );
 
     /**
-     * Test Conditional
+     * Testimonials
      */
 
-    Container::make( 'post_meta', 'Custom Data' )
-        ->where( 'post_type', '=', 'post' )
-        ->set_context( 'side' )
+    Container::make( 'post_meta', __( 'Clients Info', 'mahmudul' ) )
+        ->where( 'post_type', '=', 'testimonial' )
+        ->set_context( 'normal' )
         ->add_fields( array(
-            Field::make( 'checkbox', 'crb_show_content', __( 'Show Content' ) )
-                ->set_option_value( 'yes' )
+            Field::make( 'text', 'client_designation', __( 'Client Designation', 'mahmudul' ) )->set_width( 50 ),
+            Field::make( 'text', 'client_organization', __( 'Client Company/Organization', 'mahmudul' ) )->set_width( 50 )
         ) );
 
-    Container::make( 'post_meta', 'Extra Data' )
-        ->where( 'post_type', '=', 'post' )
-        ->where( 'post_id', 'CUSTOM', function ( $id ) {
-            if ( carbon_get_post_meta( $id, 'crb_show_content' ) == 'yes' ) {
-                return true;
-            }
-            return false;
-        } )
+    Container::make( 'post_meta', __( 'Client Organization Image', 'mahmudul' ) )
+        ->where( 'post_type', '=', 'testimonial' )
         ->set_context( 'side' )
+        ->set_priority( 'low' )
         ->add_fields( array(
-            Field::make( 'text', 'crb_phone_number', __( 'Phone Number' ) )
+            Field::make( 'image', 'client_organization_image', __( 'Set client organization image', 'mahmudul' ) )
         ) );
 
 }
