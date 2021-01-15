@@ -54,12 +54,18 @@
 			)
 		);
 
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'mahmudul' ),
-				'after'  => '</div>',
-			)
-		);
+        $args = array (
+            'before'            => '<div class="page-links-XXX"><span class="page-link-text font-weight-bold text-dark">' . __( 'More pages: ', 'mahmudul' ) . '</span>',
+            'after'             => '</div>',
+            'link_before'       => '<span class="page-link d-inline border-0">',
+            'link_after'        => '</span>',
+            'next_or_number'    => 'next',
+            'separator'         => ' | ',
+            'nextpagelink'      => __( 'Next &raquo', 'mahmudul' ),
+            'previouspagelink'  => __( '&laquo Previous', 'mahmudul' ),
+        );
+
+        wp_link_pages( $args );
 		?>
 	</div><!-- .entry-content -->
 

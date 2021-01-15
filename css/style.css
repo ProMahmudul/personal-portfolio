@@ -1649,12 +1649,16 @@ select.portfolio-filter-mobile {
   margin-left: 50px;
 }
 .blog-page-section .comment-area-section .comment-inner-box .comment-author-img {
-  width: 90px;
-  height: 90px;
   overflow: hidden;
   border-radius: 100%;
   margin-right: 20px;
 }
+
+.blog-page-section .comment-area-section .comment-inner-box .comment-author-img img{
+  width: 60px;
+  height: 60px;
+}
+
 .blog-page-section .comment-area-section .comment-inner-box .comment-author-text {
   overflow: hidden;
 }
@@ -1678,6 +1682,17 @@ select.portfolio-filter-mobile {
   background-color: #ff4c60;
 }
 
+.comment-list ul.children {
+  margin-left: 50px;
+}
+
+.comment-list li{
+  list-style: none;
+}
+
+div#comments {
+  margin-top: 25px;
+}
 /*=================================================================*/
 /*                      CLIENTS                              
 /*=================================================================*/
@@ -1928,6 +1943,11 @@ body.dark .blog-page-section .blog-pagination ul li {
 }
 body.dark .blog-page-section .blog-single {
   background-color: #302f4e !important;
+}
+
+nav.navigation.post-navigation {
+  margin-bottom: 50px;
+  padding-bottom: 1px;
 }
 
 /*=================================================================*/
