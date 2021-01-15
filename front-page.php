@@ -698,7 +698,7 @@
                             <!-- client item -->
                             <div class="client-item">
                                 <div class="inner">
-                                    <?php echo wp_get_attachment_image( carbon_get_the_post_meta('client_organization_image'), array(240, 50)); ?>
+                                    <?php echo wp_get_attachment_image( carbon_get_the_post_meta( 'client_organization_image' ), array( 240, 50 ) ); ?>
                                 </div>
                             </div>
                         </div>
@@ -721,78 +721,52 @@
         <div class="container">
 
             <!-- section title -->
-            <h2 class="section-title wow fadeInUp">Latest Posts</h2>
+            <h2 class="section-title wow fadeInUp"><?php esc_html_e( 'Latest Posts', 'mahmudul' ); ?></h2>
 
             <div class="spacer" data-height="60"></div>
 
             <div class="row blog-wrapper">
+                <?php
+                $args = array(
+                    'post_type'  => 'post',
+                    'meta_key'   => '_mahmudul_post_featured',
+                    'meta_value' => 'yes',
+                    'orderby'    => 'ID',
+                    'order'      => 'DESC'
+                );
 
-                <div class="col-md-4">
-                    <!-- blog item -->
-                    <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
-                        <div class="thumb">
-                            <a href="#">
-                                <span class="category">Reviews</span>
-                            </a>
-                            <a href="#">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/blog/1.svg"
-                                     alt="blog-title"/>
-                            </a>
-                        </div>
-                        <div class="details">
-                            <h4 class="my-0 title"><a href="#">5 Best App Development Tool for Your Project</a></h4>
-                            <ul class="list-inline meta mb-0 mt-2">
-                                <li class="list-inline-item">09 February, 2020</li>
-                                <li class="list-inline-item">Bolby</li>
-                            </ul>
+                $latest_featured_posts = new WP_Query( $args );
+                while ( $latest_featured_posts->have_posts() ):
+                    $latest_featured_posts->the_post();
+                    ?>
+                    <div class="col-md-4">
+                        <!-- blog item -->
+                        <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
+                            <div class="thumb">
+                                <?php
+                                $categories = get_the_category();
+                                if ( !empty( $categories ) ) {
+                                    printf( '<a href="%s"><span class="category">%s</span></a>', esc_url( get_category_link( $categories[0]->term_id ) ), esc_html( $categories[0]->name ) );
+                                }
+                                ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php the_post_thumbnail(); ?>
+                                </a>
+                            </div>
+                            <div class="details">
+                                <h4 class="my-0 title"><a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 7,  '...'); ?></a>
+                                </h4>
+                                <ul class="list-inline meta mb-0 mt-2">
+                                    <li class="list-inline-item"><?php echo get_the_date(); ?></li>
+                                    <li class="list-inline-item"><?php the_author(); ?></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-4">
-                    <!-- blog item -->
-                    <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
-                        <div class="thumb">
-                            <a href="#">
-                                <span class="category">Tutorial</span>
-                            </a>
-                            <a href="#">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/blog/2.svg"
-                                     alt="blog-title"/>
-                            </a>
-                        </div>
-                        <div class="details">
-                            <h4 class="my-0 title"><a href="#">Common Misconceptions About Payment</a></h4>
-                            <ul class="list-inline meta mb-0 mt-2">
-                                <li class="list-inline-item">07 February, 2020</li>
-                                <li class="list-inline-item">Bolby</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <!-- blog item -->
-                    <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
-                        <div class="thumb">
-                            <a href="#">
-                                <span class="category">Business</span>
-                            </a>
-                            <a href="#">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/blog/3.svg"
-                                     alt="blog-title"/>
-                            </a>
-                        </div>
-                        <div class="details">
-                            <h4 class="my-0 title"><a href="#">3 Things To Know About Startup Business</a></h4>
-                            <ul class="list-inline meta mb-0 mt-2">
-                                <li class="list-inline-item">06 February, 2020</li>
-                                <li class="list-inline-item">Bolby</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
+                <?php
+                endwhile;
+                wp_reset_postdata();
+                ?>
             </div>
 
             <!-- more button -->

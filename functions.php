@@ -79,10 +79,10 @@ function mahmudul_widgets_init() {
             'name'          => esc_html__( 'Sidebar', 'mahmudul' ),
             'id'            => 'sidebar-1',
             'description'   => esc_html__( 'Add widgets here.', 'mahmudul' ),
-            'before_widget' => '<section id="%1$s" class="widget %2$s">',
-            'after_widget'  => '</section>',
-            'before_title'  => '<h2 class="widget-title">',
-            'after_title'   => '</h2>',
+            'before_widget' => '<div id="%1$s" class="widget bg-white rounded shadow-dark %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-header">',
+            'after_title'   => '</h3>',
         )
     );
 }
@@ -93,7 +93,7 @@ add_action( 'widgets_init', 'mahmudul_widgets_init' );
  * Enqueue scripts and styles.
  */
 function mahmudul_scripts() {
-    wp_enqueue_style('mahmudul-google-font', '//fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap&amp;subset=cyrillic');
+    wp_enqueue_style( 'mahmudul-google-font', '//fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap&amp;subset=cyrillic' );
     wp_enqueue_style( 'mahmudul-bootstrap.min-css', get_template_directory_uri() . '/css/bootstrap.min.css', null, _S_VERSION );
     wp_enqueue_style( 'mahmudul-all.min-css', get_template_directory_uri() . '/css/all.min.css', null, _S_VERSION );
     wp_register_style( 'mahmudul-simple-line-icons-css', get_template_directory_uri() . '/css/simple-line-icons.css', null, _S_VERSION );
@@ -117,7 +117,7 @@ function mahmudul_scripts() {
     wp_enqueue_script( 'mahmudul-popper.min-js', get_template_directory_uri() . '/js/popper.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_enqueue_script( 'mahmudul-bootstrap.min-js', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_register_script( 'mahmudul-isotope.pkgd.min-js', get_template_directory_uri() . '/js/isotope.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_enqueue_script( 'mahmudul-infinite-scroll.min-js', get_template_directory_uri() . '/js/infinite-scroll.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_register_script( 'mahmudul-infinite-scroll.min-js', get_template_directory_uri() . '/js/infinite-scroll.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_register_script( 'mahmudul-imagesloaded.pkgd.min-js', get_template_directory_uri() . '/js/imagesloaded.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_register_script( 'mahmudul-slick.min-js', get_template_directory_uri() . '/js/slick.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_register_script( 'mahmudul-contact-js', get_template_directory_uri() . '/js/contact.js', array( 'jquery', 'mahmudul-validator-js' ), _S_VERSION, true );
@@ -131,6 +131,7 @@ function mahmudul_scripts() {
         wp_enqueue_script( 'mahmudul-jquery.waypoints.min-js' );
         wp_enqueue_script( 'mahmudul-jquery.counterup.min-js' );
         wp_enqueue_script( 'mahmudul-isotope.pkgd.min-js' );
+        wp_enqueue_script( 'mahmudul-infinite-scroll.min-js' );
         wp_enqueue_script( 'mahmudul-imagesloaded.pkgd.min-js' );
         wp_enqueue_script( 'mahmudul-slick.min-js' );
         wp_enqueue_script( 'mahmudul-contact-js' );
@@ -144,7 +145,9 @@ function mahmudul_scripts() {
     wp_enqueue_script( 'mahmudul-custom-js', get_template_directory_uri() . '/js/custom.js', array( 'jquery' ), _S_VERSION, true );
 
     $ajax_url = admin_url( 'admin-ajax.php' );
-    wp_localize_script( 'mahmudul-custom-js', 'portfolio', array( 'ajaxurl' => $ajax_url ) );
+    if ( is_front_page() ) {
+        wp_localize_script( 'mahmudul-custom-js', 'portfolio', array( 'ajaxurl' => $ajax_url ) );
+    }
 
     $skill_category = get_terms( array(
         'taxonomy'   => 'skill_category',
@@ -162,7 +165,9 @@ function mahmudul_scripts() {
         }
     }
 
-    wp_localize_script( 'mahmudul-custom-js', 'active_skill', $active_skill );
+    if ( is_front_page() ) {
+        wp_localize_script( 'mahmudul-custom-js', 'active_skill', $active_skill );
+    }
 
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

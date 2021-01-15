@@ -131,6 +131,10 @@ blockquote p {
   line-height: 1.6;
 }
 
+ol{
+  list-style-position: inside;
+}
+
 /* === Pre === */
 pre {
   display: block;

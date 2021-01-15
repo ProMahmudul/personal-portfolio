@@ -163,6 +163,17 @@ function mahmudul_frontpage_meta() {
             Field::make( 'image', 'client_organization_image', __( 'Set client organization image', 'mahmudul' ) )
         ) );
 
+    /**
+     * Featured Posts
+     */
+    Container::make( 'post_meta', __('Featured', 'mahmudul') )
+        ->where('post_type', '=', 'post')
+        ->set_context( 'side' )
+        ->set_priority( 'low' )
+        ->add_fields( array(
+            Field::make( 'checkbox', 'mahmudul_post_featured', 'is Featured?' )
+        ) );
+
 }
 
 add_action( 'carbon_fields_register_fields', 'mahmudul_frontpage_meta' );

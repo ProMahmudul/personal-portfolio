@@ -13,25 +13,31 @@
 	<header class="entry-header">
 		<?php
 		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
+			the_title( '<h1 class="entry-title my-0">', '</h1>' );
 		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+			the_title( '<h2 class="entry-title my-0"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		endif;
 
 		if ( 'post' === get_post_type() ) :
 			?>
 			<div class="entry-meta">
-				<?php
-				mahmudul_posted_on();
-				mahmudul_posted_by();
-				?>
+                <ul class="list-inline unstyled meta mb-0 mt-3">
+                    <li class="list-inline-item"><?php echo get_the_date(); ?></li>
+                    <li class="list-inline-item">
+                        <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( "ID" ) ) ) ?>"
+                           title="Posts by <?php esc_attr( the_author() ); ?>" rel="author">
+                            <?php the_author(); ?>
+                        </a>
+                    </li>
+                    <li class="list-inline-item"><a href="#"><?php the_category( ", " ); ?></a></li>
+                </ul>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
 	<?php mahmudul_post_thumbnail(); ?>
 
-	<div class="entry-content">
+	<div class="entry-content clearfix my-4">
 		<?php
 		the_content(
 			sprintf(
