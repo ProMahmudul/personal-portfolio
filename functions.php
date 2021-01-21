@@ -8,7 +8,9 @@
  */
 
 //Carbon Fields Load
-require_once "inc/carbon.php";
+require_once get_theme_file_path( "inc/carbon.php" );
+//Tgm
+require_once get_theme_file_path( "inc/tgm.php" );
 
 if ( !defined( '_S_VERSION' ) ) {
     // Replace the version number of the theme on each release.
@@ -110,44 +112,27 @@ function mahmudul_scripts() {
     wp_enqueue_style( 'mahmudul-style', get_stylesheet_uri(), array(), _S_VERSION );
     wp_style_add_data( 'mahmudul-style', 'rtl', 'replace' );
 
+
     wp_enqueue_script( 'mahmudul-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-    wp_register_script( 'mahmudul-jquery.easing.min-js', get_template_directory_uri() . '/js/jquery.easing.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-jquery.waypoints.min-js', get_template_directory_uri() . '/js/jquery.waypoints.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-jquery.counterup.min-js', get_template_directory_uri() . '/js/jquery.counterup.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-jquery.easing.min-js', get_template_directory_uri() . '/js/jquery.easing.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-jquery.waypoints.min-js', get_template_directory_uri() . '/js/jquery.waypoints.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-jquery.counterup.min-js', get_template_directory_uri() . '/js/jquery.counterup.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_enqueue_script( 'mahmudul-popper.min-js', get_template_directory_uri() . '/js/popper.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_enqueue_script( 'mahmudul-bootstrap.min-js', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-isotope.pkgd.min-js', get_template_directory_uri() . '/js/isotope.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-infinite-scroll.min-js', get_template_directory_uri() . '/js/infinite-scroll.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-imagesloaded.pkgd.min-js', get_template_directory_uri() . '/js/imagesloaded.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-slick.min-js', get_template_directory_uri() . '/js/slick.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-contact-js', get_template_directory_uri() . '/js/contact.js', array( 'jquery', 'mahmudul-validator-js' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-validator-js', get_template_directory_uri() . '/js/validator.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-wow.min-js', get_template_directory_uri() . '/js/wow.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-morphext.min-js', get_template_directory_uri() . '/js/morphext.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-parallax.min-js', get_template_directory_uri() . '/js/parallax.min.js', array( 'jquery' ), _S_VERSION, true );
-    wp_register_script( 'mahmudul-jquery.magnific-popup.min-js', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array( 'jquery' ), _S_VERSION, true );
-    if ( is_front_page() ) {
-        wp_enqueue_script( 'mahmudul-jquery.easing.min-js' );
-        wp_enqueue_script( 'mahmudul-jquery.waypoints.min-js' );
-        wp_enqueue_script( 'mahmudul-jquery.counterup.min-js' );
-        wp_enqueue_script( 'mahmudul-isotope.pkgd.min-js' );
-        wp_enqueue_script( 'mahmudul-infinite-scroll.min-js' );
-        wp_enqueue_script( 'mahmudul-imagesloaded.pkgd.min-js' );
-        wp_enqueue_script( 'mahmudul-slick.min-js' );
-        wp_enqueue_script( 'mahmudul-contact-js' );
-        wp_enqueue_script( 'mahmudul-validator-js' );
-        wp_enqueue_script( 'mahmudul-wow.min-js' );
-        wp_enqueue_script( 'mahmudul-morphext.min-js' );
-        wp_enqueue_script( 'mahmudul-parallax.min-js' );
-        wp_enqueue_script( 'mahmudul-jquery.magnific-popup.min-js' );
-    }
-
+    wp_enqueue_script( 'mahmudul-isotope.pkgd.min-js', get_template_directory_uri() . '/js/isotope.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-infinite-scroll.min-js', get_template_directory_uri() . '/js/infinite-scroll.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-imagesloaded.pkgd.min-js', get_template_directory_uri() . '/js/imagesloaded.pkgd.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-slick.min-js', get_template_directory_uri() . '/js/slick.min.js', array( 'jquery' ), _S_VERSION, true );
+//    wp_enqueue_script( 'mahmudul-validator-js', get_template_directory_uri() . '/js/validator.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-wow.min-js', get_template_directory_uri() . '/js/wow.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-morphext.min-js', get_template_directory_uri() . '/js/morphext.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-parallax.min-js', get_template_directory_uri() . '/js/parallax.min.js', array( 'jquery' ), _S_VERSION, true );
+    wp_enqueue_script( 'mahmudul-jquery.magnific-popup.min-js', get_template_directory_uri() . '/js/jquery.magnific-popup.min.js', array( 'jquery' ), _S_VERSION, true );
     wp_enqueue_script( 'mahmudul-custom-js', get_template_directory_uri() . '/js/custom.js', array( 'jquery' ), _S_VERSION, true );
 
     $ajax_url = admin_url( 'admin-ajax.php' );
-    if ( is_front_page() ) {
-        wp_localize_script( 'mahmudul-custom-js', 'portfolio', array( 'ajaxurl' => $ajax_url ) );
-    }
+    wp_localize_script( 'mahmudul-custom-js', 'portfolio', array( 'ajaxurl' => $ajax_url ) );
+
 
     $skill_category = get_terms( array(
         'taxonomy'   => 'skill_category',
@@ -165,17 +150,49 @@ function mahmudul_scripts() {
         }
     }
 
-    if ( is_front_page() ) {
-        wp_localize_script( 'mahmudul-custom-js', 'active_skill', $active_skill );
-    }
+    wp_localize_script( 'mahmudul-custom-js', 'active_skill', $active_skill );
 
 
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
     }
+
+    if ( is_404() ) {
+        wp_enqueue_style( 'mahmudul-404', get_template_directory_uri() . '/css/404.css' );
+    }
 }
 
 add_action( 'wp_enqueue_scripts', 'mahmudul_scripts' );
+
+
+/**
+ * Scroll to Top
+ */
+function mahmudul_scrollToTop() {
+    if ( wp_script_is( 'jquery', 'done' ) ):
+        ?>
+        <script type="text/javascript">
+            (function ($) {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() >= 350) {        // If page is scrolled more than 50px
+                        $('#return-to-top').fadeIn(200);    // Fade in the arrow
+                    } else {
+                        $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+                    }
+                });
+                $('#return-to-top').on('click', function (event) {     // When arrow is clicked
+                    event.preventDefault();
+                    $('body,html').animate({
+                        scrollTop: 0                       // Scroll to top of body
+                    }, 400);
+                });
+            })(jQuery);
+        </script>
+    <?php
+    endif;
+}
+
+add_action( 'wp_footer', 'mahmudul_scrollToTop' );
 
 /**
  * Implement the Custom Header feature.
@@ -245,7 +262,7 @@ add_filter( 'nav_menu_link_attributes', 'mahmudul_menu_link_class', 1, 3 );
 
 
 function mahmudul_menu_link_change( $menu_items ) {
-    if ( ( is_home() || is_singular() ) && !is_front_page() ) {
+    if ( !is_front_page() ) {
         foreach ( $menu_items as $i => $menu_item ) {
             $item_path      = esc_url( $menu_item->url );
             $menu_item->url = home_url() . $item_path;
@@ -406,7 +423,8 @@ function my_custom_comment( $comment, $args, $depth ) {
         $tag       = 'li';
         $add_below = 'div-comment';
     } ?>
-    <<?php echo $tag; echo " "; ?><?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?> id="comment-<?php comment_ID() ?>"><?php
+    <<?php echo $tag;
+    echo " "; ?><?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ); ?> id="comment-<?php comment_ID() ?>"><?php
     if ( 'div' != $args['style'] ) { ?>
         <div id="div-comment-<?php comment_ID() ?>" class="comment-body comment-inner-box"><?php
     } ?>
@@ -422,13 +440,13 @@ function my_custom_comment( $comment, $args, $depth ) {
     <div class="comment-author-text">
         <?php printf( __( '<h4>%s</h4>' ), get_comment_author_link() ); ?>
         <span><?php
-        /* translators: 1: date, 2: time */
-        printf(
-            __( '%1$s at %2$s' ),
-            get_comment_date(),
-            get_comment_time()
-        );
-        ?></span>
+            /* translators: 1: date, 2: time */
+            printf(
+                __( '%1$s at %2$s' ),
+                get_comment_date(),
+                get_comment_time()
+            );
+            ?></span>
         <?php comment_text(); ?>
         <div class="reply-btn"><?php
             comment_reply_link(
@@ -442,7 +460,7 @@ function my_custom_comment( $comment, $args, $depth ) {
                 )
             ); ?>
         </div>
-        <?php edit_comment_link( __( '(Edit)' ), '  ', '' );  ?>
+        <?php edit_comment_link( __( '(Edit)' ), '  ', '' ); ?>
     </div>
 
 

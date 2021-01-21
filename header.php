@@ -62,7 +62,7 @@
     <!-- desktop header -->
     <header class="desktop-header-3 light fixed-top">
         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-expand-lg navbar-light">
                 <?php if ( get_custom_logo() ): ?>
                     <?php the_custom_logo(); ?>
                 <?php else: ?>

@@ -9,7 +9,7 @@
 
 ?>
 
-<section class="no-results not-found">
+<div class="no-results not-found">
 	<header class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'mahmudul' ); ?></h1>
 	</header><!-- .page-header -->
@@ -36,7 +36,6 @@
 
 			<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'mahmudul' ); ?></p>
 			<?php
-			get_search_form();
 
 		else :
 			?>
@@ -48,4 +47,4 @@
 		endif;
 		?>
 	</div><!-- .page-content -->
-</section><!-- .no-results -->
+</div><!-- .no-results -->

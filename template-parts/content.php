@@ -29,7 +29,7 @@
                             <?php the_author(); ?>
                         </a>
                     </li>
-                    <li class="list-inline-item"><a href="#"><?php the_category( ", " ); ?></a></li>
+                    <li class="list-inline-item"><?php the_category( ", " ); ?></li>
                 </ul>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>

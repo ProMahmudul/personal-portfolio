@@ -754,7 +754,8 @@
                                 </a>
                             </div>
                             <div class="details">
-                                <h4 class="my-0 title"><a href="<?php the_permalink(); ?>"><?php echo wp_trim_words(get_the_title(), 7,  '...'); ?></a>
+                                <h4 class="my-0 title"><a
+                                            href="<?php the_permalink(); ?>"><?php echo wp_trim_words( get_the_title(), 7, '...' ); ?></a>
                                 </h4>
                                 <ul class="list-inline meta mb-0 mt-2">
                                     <li class="list-inline-item"><?php echo get_the_date(); ?></li>
@@ -772,7 +773,7 @@
             <!-- more button -->
             <div class="text-center mt-5">
                 <a href="<?php echo get_permalink( get_option( 'page_for_posts' ) ); ?>" class="btn btn-default"><i
-                            class="fas fa-spinner"></i> View more</a>
+                            class="fas fa-spinner"></i><?php esc_html_e( 'View more', 'mahmudul' ); ?></a>
             </div>
 
         </div>
@@ -785,7 +786,7 @@
         <div class="container">
 
             <!-- section title -->
-            <h2 class="section-title wow fadeInUp">Get In Touch</h2>
+            <h2 class="section-title wow fadeInUp"><?php esc_html_e( 'Get In Touch', 'Get In Touch' ); ?></h2>
 
             <div class="spacer" data-height="60"></div>
 
@@ -794,66 +795,15 @@
                 <div class="col-md-4">
                     <!-- contact info -->
                     <div class="contact-info">
-                        <h3 class="wow fadeInUp">Let's talk about everything!</h3>
-                        <p class="wow fadeInUp">Don't like forms? Send me an <a
-                                    href="mailto:<?php echo get_option( 'admin_email' ); ?>">email</a>.
+                        <h3 class="wow fadeInUp"><?php esc_html_e( 'Let\'s talk about everything!', 'mahmudul' ); ?></h3>
+                        <p class="wow fadeInUp"><?php esc_html_e( 'Don\'t like forms? Send me an ', 'mahmudul' ); ?><a
+                                    href="mailto:<?php echo get_option( 'admin_email' ); ?>"><?php esc_html_e( 'email', 'mahmudul' ); ?></a>.
                             👋</p>
                     </div>
                 </div>
 
                 <div class="col-md-8">
-                    <!-- Contact Form -->
-                    <form id="contact-form" class="contact-form mt-6" method="post"
-                          action="https://jthemes.net/themes/html/bolby/demo/form/contact.php">
-
-                        <div class="messages"></div>
-
-                        <div class="row">
-                            <div class="column col-md-6">
-                                <!-- Name input -->
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="InputName" id="InputName"
-                                           placeholder="Your name" required="required" data-error="Name is required.">
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-
-                            <div class="column col-md-6">
-                                <!-- Email input -->
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="InputEmail" name="InputEmail"
-                                           placeholder="Email address" required="required"
-                                           data-error="Email is required.">
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-
-                            <div class="column col-md-12">
-                                <!-- Email input -->
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="InputSubject" name="InputSubject"
-                                           placeholder="Subject" required="required" data-error="Subject is required.">
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-
-                            <div class="column col-md-12">
-                                <!-- Message textarea -->
-                                <div class="form-group">
-                                    <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5"
-                                              placeholder="Message" required="required"
-                                              data-error="Message is required."></textarea>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">Send
-                            Message
-                        </button><!-- Send Button -->
-
-                    </form>
-                    <!-- Contact Form end -->
+                    <?php echo do_shortcode( '[contact-form-7 id="163" title="Contact Form"]' ) ?>
                 </div>
 
             </div>

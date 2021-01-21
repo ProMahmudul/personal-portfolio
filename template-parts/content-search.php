@@ -9,27 +9,25 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-
-		<?php if ( 'post' === get_post_type() ) : ?>
-		<div class="entry-meta">
-			<?php
-			mahmudul_posted_on();
-			mahmudul_posted_by();
-			?>
-		</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
-
-	<?php mahmudul_post_thumbnail(); ?>
-
-	<div class="entry-summary">
-		<?php the_excerpt(); ?>
-	</div><!-- .entry-summary -->
-
-	<footer class="entry-footer">
-		<?php mahmudul_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
-</article><!-- #post-<?php the_ID(); ?> -->
+<div class="blog-img-text bg-white rounded blog-standard">
+    <div class="blog-img mb-4">
+        <?php mahmudul_post_thumbnail(); ?>
+    </div>
+    <div class="blog-text-title">
+        <h4 class="mt-0 title"><a
+                    href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+        <ul class="list-inline unstyled meta mb-3 mt-3">
+            <li class="list-inline-item"><?php echo get_the_date(); ?></li>
+            <li class="list-inline-item">
+                <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( "ID" ) ) ) ?>"
+                   title="Posts by <?php esc_attr( the_author() ); ?>" rel="author">
+                    <?php the_author(); ?>
+                </a></li>
+            <li class="list-inline-item"><?php the_category( ", " ); ?></li>
+        </ul>
+        <?php the_excerpt(); ?>
+        <div class="br-more mt-3">
+            <a href="<?php the_permalink(); ?>"><?php esc_html_e( 'Read More', 'mahmudul' ); ?></a>
+        </div>
+    </div>
+</div>

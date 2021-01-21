@@ -1,6 +1,4 @@
 <?php
-require_once get_template_directory() . "/lib/carbon-fields/vendor/autoload.php";
-
 function mahmudul_crb_load() {
     \Carbon_Fields\Carbon_Fields::boot();
 }
